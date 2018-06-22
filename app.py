@@ -8,12 +8,17 @@ from flask_cors import CORS
 # ml stuff
 from ml.ml_model import predict_iris, predict_iris_file
 
+# pretty interface
+from flasgger import Swagger
+
 # CORS for connecting with the front
 allowed_domains = [
     r'http://localhost:5000',
 ]
 
 application = Flask(__name__)
+swagger = Swagger(application)
+
 CORS(application,
      origins=allowed_domains,
      resources=r'/v1/*',
@@ -39,12 +44,46 @@ def hello():
 # GET request
 @application.route('/v1/predict/', methods=['GET'])
 def nn_prediction():
+    """
+    predicts iris type from GET
+    ---
+    parameters:
+      - name: s_length
+        in: query
+        type: number
+        required: true
+      - name: s_width
+        in: query
+        type: number
+        required: true
+      - name: p_length
+        in: query
+        type: number
+        required: true
+      - name: p_width
+        in: query
+        type: number
+        required: true
+    responses:
+      200:
+        description: All is well. you get your results as a json with a string describing classes
+        schema:
+          id: predictionGet
+          properties:
+            results:
+              type: json
+              default: setosa
+            status:
+              type: number
+              default: 200
+    """
     x_1 = request.args.get("s_length")
     x_2 = request.args.get("s_width")
     x_3 = request.args.get("p_length")
     x_4 = request.args.get("p_width")
 
     x_input = [x_1, x_2, x_3, x_4]
+    print('4 inputs received: ', x_input)
 
     results = predict_iris(x_input=x_input)
 
@@ -58,6 +97,27 @@ def nn_prediction():
 # POST request (file input)
 @application.route('/v1/predict/', methods=['POST'])
 def nn_prediction_file():
+    """
+    use case: normal user who just has a csv, and doesn't know data science. input csv, get result (datawrapper). supports multiple inputs. each input in the file must be a row of 4 numbers separated by corners in this order: sepal_length, sepal_width, petal_length, and petal_width
+    ---
+    parameters:
+      - name: input_file
+        in: formData
+        type: file
+        required: true
+    responses:
+      200:
+        description: Json describing classes for each row in csv
+        schema:
+          id: predictionFile
+          properties:
+            results:
+              type: json
+              default: ['setosa', 'setosa', 'virginica']
+            status:
+              type: number
+              default: 200
+    """
     x_1 = request.files.get("input_file")
 
     results = predict_iris_file(x_file_input=x_1)

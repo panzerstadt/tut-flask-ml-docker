@@ -10,6 +10,7 @@ scikit-learn = "*"
 pandas = "*"
 numpy = "*"
 scipy = "*"
+flasgger = "*"
 
 [dev-packages]
 
