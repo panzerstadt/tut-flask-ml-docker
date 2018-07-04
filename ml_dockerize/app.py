@@ -134,5 +134,5 @@ def nn_prediction_file():
     return jsonify(output)
 
 
-application.run(debug=True)
+application.run(host='0.0.0.0', port=5000, debug=False)
 print('a flask app is initiated at {0}'.format(application.instance_path))
