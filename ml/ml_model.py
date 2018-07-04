@@ -41,7 +41,7 @@ def rf_classifier(n_estimators=10):
     return RandomForestClassifier(n_estimators=n_estimators)
 
 
-def save_model(model_in, filepath='model.pkl'):
+def save_model(model_in, filepath='./ml/saved/model.pkl'):
     import pickle
     with open(filepath, 'wb') as f:
         pickle.dump(model_in, f)
@@ -82,12 +82,19 @@ def predict_iris_file(x_file_input):
     return humanize_output(prediction)
 
 
+# on start, this line loads the nn model
+# relative to app.py (watch for filepath structure)
 model = load_model()
 
 
 
 
 if __name__ == '__main__':
+    """
+    Training happens here in this file
+    Predicting can happen here (change the model load path)
+    or in the main app.py
+    """
     def train_predict(save=False):
         seed = 42
         X, y = load_dataset()

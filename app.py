@@ -52,18 +52,22 @@ def nn_prediction():
         in: query
         type: number
         required: true
+        default: 0.2
       - name: s_width
         in: query
         type: number
         required: true
+        default: 0.1
       - name: p_length
         in: query
         type: number
         required: true
+        default: 3.2
       - name: p_width
         in: query
         type: number
         required: true
+        default: 1.0
     responses:
       200:
         description: All is well. you get your results as a json with a string describing classes
