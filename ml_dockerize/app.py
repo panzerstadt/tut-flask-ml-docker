@@ -14,6 +14,7 @@ from flasgger import Swagger
 # CORS for connecting with the front
 allowed_domains = [
     r'http://localhost:5000',
+    r'http://localhost:8000'
 ]
 
 application = Flask(__name__)
@@ -134,5 +135,9 @@ def nn_prediction_file():
     return jsonify(output)
 
 
-application.run(host='0.0.0.0', port=5000, debug=False)
-print('a flask app is initiated at {0}'.format(application.instance_path))
+if __name__ == '__main__':
+    # this needs to be places in __main__ because when apache is
+    # reading this file, if this is run, apache will never be able to
+    # grab the application file for use in the production server.
+    application.run(host='0.0.0.0', port=5000)
+    print('a flask app is initiated at {0}'.format(application.instance_path))

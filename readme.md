@@ -29,3 +29,8 @@ Understanding Docker Commands
 - something like `port.listen()` is javascript and `app.run()` in python's flask.
 - e.g. run the flask app (as the final command in the string of commands)
 
+## docker CLI commands
+`docker build -t my-container-name .`  # builds the blueprint (doesn't run it yet)
+`docker ps`  # list files
+`docker images`  # see your built images
+`docker run -p 5000:5000 my-container-name`  # runs + tells it to bind my port `5000:...` to the docker container's port `...:5000`. [ref](https://docs.docker.com/v1.7/reference/run/#expose-incoming-ports)
